@@ -61,4 +61,7 @@ class Bird:
         row = index // SHEET_COLS  # 위에서부터 몇 번째 줄인지
         left = col * FRAME_W
         bottom = SHEET_H - (row + 1) * FRAME_H
-        self.image.clip_draw(left, bottom, FRAME_W, FRAME_H, self.x, self.y)
+        # 시트 속 새는 오른쪽을 보고 있으므로 왼쪽으로 갈 때는 좌우 반전
+        flip = '' if self.dir == 1 else 'h'
+        self.image.clip_composite_draw(left, bottom, FRAME_W, FRAME_H,
+                                       0, flip, self.x, self.y, FRAME_W, FRAME_H)
