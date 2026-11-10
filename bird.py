@@ -39,9 +39,12 @@ class Bird:
             Bird.image = load_image('bird_animation.png')
         self.x, self.y = 400, 300
         self.frame = 0.0
+        self.dir = 1  # 1: 오른쪽, -1: 왼쪽
 
     def update(self):
-        self.frame = (self.frame + FRAMES_PER_SECOND * game_framework.frame_time) % TOTAL_FRAMES
+        dt = game_framework.frame_time
+        self.frame = (self.frame + FRAMES_PER_SECOND * dt) % TOTAL_FRAMES
+        self.x += self.dir * FLY_SPEED_PPS * dt
 
     def draw(self):
         index = int(self.frame)
