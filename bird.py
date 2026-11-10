@@ -46,6 +46,15 @@ class Bird:
         self.frame = (self.frame + FRAMES_PER_SECOND * dt) % TOTAL_FRAMES
         self.x += self.dir * FLY_SPEED_PPS * dt
 
+        # 맵 끝에 닿으면 반대 방향으로 돌아선다
+        half_w = FRAME_W / 2
+        if self.x >= get_canvas_width() - half_w:
+            self.x = get_canvas_width() - half_w
+            self.dir = -1
+        elif self.x <= half_w:
+            self.x = half_w
+            self.dir = 1
+
     def draw(self):
         index = int(self.frame)
         col = index % SHEET_COLS
