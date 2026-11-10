@@ -31,6 +31,8 @@ SHEET_COLS, SHEET_ROWS = 5, 3
 FRAME_W = SHEET_W // SHEET_COLS          # 183
 FRAME_H = SHEET_H // SHEET_ROWS          # 168
 TOTAL_FRAMES = 14
+DRAW_SCALE = 0.5  # 화면에 그릴 때 크기 배율
+DRAW_W, DRAW_H = FRAME_W * DRAW_SCALE, FRAME_H * DRAW_SCALE
 
 
 class Bird:
@@ -40,7 +42,7 @@ class Bird:
         if Bird.image is None:
             Bird.image = load_image('bird_animation.png')
         # 랜덤 위치에서 시작 (하늘 영역: 풀밭 위쪽)
-        half_w, half_h = FRAME_W / 2, FRAME_H / 2
+        half_w, half_h = DRAW_W / 2, DRAW_H / 2
         self.x = random.randint(int(half_w), int(get_canvas_width() - half_w))
         self.y = random.randint(int(150 + half_h), int(get_canvas_height() - half_h))
         self.frame = random.random() * TOTAL_FRAMES  # 새마다 날개짓 시작 시점을 다르게
@@ -52,7 +54,7 @@ class Bird:
         self.x += self.dir * FLY_SPEED_PPS * dt
 
         # 맵 끝에 닿으면 반대 방향으로 돌아선다
-        half_w = FRAME_W / 2
+        half_w = DRAW_W / 2
         if self.x >= get_canvas_width() - half_w:
             self.x = get_canvas_width() - half_w
             self.dir = -1
@@ -69,4 +71,4 @@ class Bird:
         # 시트 속 새는 오른쪽을 보고 있으므로 왼쪽으로 갈 때는 좌우 반전
         flip = '' if self.dir == 1 else 'h'
         self.image.clip_composite_draw(left, bottom, FRAME_W, FRAME_H,
-                                       0, flip, self.x, self.y, FRAME_W, FRAME_H)
+                                       0, flip, self.x, self.y, DRAW_W, DRAW_H)
