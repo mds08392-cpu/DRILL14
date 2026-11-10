@@ -13,5 +13,5 @@ class Bird:
         pass
 
     def draw(self):
-        # 우선 이미지가 제대로 불러와지는지 확인하기 위해 전체 시트를 그린다
-        self.image.draw(self.x, self.y)
+        # 시트는 5열 x 3행(918x506), 첫 번째 프레임만 잘라서 그린다 (애니메이션은 이후 작업)
+        self.image.clip_draw(0, 506 - 168, 183, 168, self.x, self.y)
