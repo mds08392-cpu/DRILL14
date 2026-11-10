@@ -23,6 +23,14 @@ TIME_PER_FRAME = TIME_PER_STRIDE / FRAMES_PER_STRIDE
 FRAMES_PER_SECOND = 1.0 / TIME_PER_FRAME
 
 
+# 스프라이트 시트: 918x506, 5열 x 3행 (마지막 줄은 4프레임), 총 14프레임
+SHEET_W, SHEET_H = 918, 506
+SHEET_COLS, SHEET_ROWS = 5, 3
+FRAME_W = SHEET_W // SHEET_COLS          # 183
+FRAME_H = SHEET_H // SHEET_ROWS          # 168
+TOTAL_FRAMES = 14
+
+
 class Bird:
     image = None
 
@@ -30,10 +38,15 @@ class Bird:
         if Bird.image is None:
             Bird.image = load_image('bird_animation.png')
         self.x, self.y = 400, 300
+        self.frame = 0.0
 
     def update(self):
-        pass
+        self.frame = (self.frame + FRAMES_PER_SECOND * game_framework.frame_time) % TOTAL_FRAMES
 
     def draw(self):
-        # 시트는 5열 x 3행(918x506), 첫 번째 프레임만 잘라서 그린다 (애니메이션은 이후 작업)
-        self.image.clip_draw(0, 506 - 168, 183, 168, self.x, self.y)
+        index = int(self.frame)
+        col = index % SHEET_COLS
+        row = index // SHEET_COLS  # 위에서부터 몇 번째 줄인지
+        left = col * FRAME_W
+        bottom = SHEET_H - (row + 1) * FRAME_H
+        self.image.clip_draw(left, bottom, FRAME_W, FRAME_H, self.x, self.y)
