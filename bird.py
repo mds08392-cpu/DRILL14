@@ -11,6 +11,17 @@ FLY_SPEED_MPM = (FLY_SPEED_KMPH * 1000.0 / 60.0)
 FLY_SPEED_MPS = (FLY_SPEED_MPM / 60.0)
 FLY_SPEED_PPS = (FLY_SPEED_MPS * PIXEL_PER_METER)
 
+# 날개짓 한 번에 나아가는 거리 (보폭). 작은 새는 초당 약 5회 날개짓 -> 8.33m/s / 5 = 약 1.67m
+STRIDE_LENGTH_M = 1.67
+# 시트의 한 줄(5프레임)이 날개짓 한 번
+FRAMES_PER_STRIDE = 5
+# 날개짓 한 번에 걸리는 시간 = 보폭 / 속도 (약 0.2초)
+TIME_PER_STRIDE = STRIDE_LENGTH_M / FLY_SPEED_MPS
+# 프레임당 재생시간 (약 0.04초)
+TIME_PER_FRAME = TIME_PER_STRIDE / FRAMES_PER_STRIDE
+# 초당 프레임 수 (약 25 FPS)
+FRAMES_PER_SECOND = 1.0 / TIME_PER_FRAME
+
 
 class Bird:
     image = None
