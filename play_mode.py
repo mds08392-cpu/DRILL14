@@ -5,6 +5,8 @@ from boy import Boy
 from grass import Grass
 from bird import Bird
 
+BIRD_COUNT = 5
+
 boy = None
 
 
