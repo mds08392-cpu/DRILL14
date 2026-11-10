@@ -1,3 +1,5 @@
+import random
+
 from pico2d import *
 
 import game_framework
@@ -37,9 +39,12 @@ class Bird:
     def __init__(self):
         if Bird.image is None:
             Bird.image = load_image('bird_animation.png')
-        self.x, self.y = 400, 300
-        self.frame = 0.0
-        self.dir = 1  # 1: 오른쪽, -1: 왼쪽
+        # 랜덤 위치에서 시작 (하늘 영역: 풀밭 위쪽)
+        half_w, half_h = FRAME_W / 2, FRAME_H / 2
+        self.x = random.randint(int(half_w), int(get_canvas_width() - half_w))
+        self.y = random.randint(int(150 + half_h), int(get_canvas_height() - half_h))
+        self.frame = random.random() * TOTAL_FRAMES  # 새마다 날개짓 시작 시점을 다르게
+        self.dir = random.choice((-1, 1))  # 1: 오른쪽, -1: 왼쪽
 
     def update(self):
         dt = game_framework.frame_time
